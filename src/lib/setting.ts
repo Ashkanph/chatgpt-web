@@ -1,10 +1,9 @@
 import {
   type Settings,
-  type SettingsSelect,
   supportedModels
 } from './Types.svelte'
 
-export const modelSetting: Settings & SettingsSelect = {
+export const modelSetting: Settings = {
   key: 'model',
   name: 'Model',
   default: 'gpt-3.5-turbo',
@@ -80,5 +79,12 @@ export const settingsMap: Settings[] = [
     max: 2,
     step: 0.2,
     type: 'number'
+  },
+  {
+    type: 'textArea',
+    key: 'system_message',
+    name: 'System Message',
+    default: '',
+    title: 'A message to gently instruct the assistant'
   }
 ]

@@ -13,6 +13,7 @@
   import Prompts from './Prompts.svelte'
   import Messages from './Messages.svelte'
   import { settingsMap, modelSetting } from './setting'
+  import SelectPredefinedPrompts from './SelectPredefinedPrompts.svelte'
 
   import { afterUpdate, onMount } from 'svelte'
   import { replace } from 'svelte-spa-router'
@@ -36,6 +37,10 @@
     // Pre-select the last used model
     if (chat.messages.length > 0) {
       modelSetting.default = chat.messages[chat.messages.length - 1].model || modelSetting.default
+    }
+
+    if (!chat.setting.model) {
+      chat.setting.model = modelSetting.default
     }
 
     // Focus the input on mount
@@ -96,12 +101,21 @@
 
         // Provide the settings by mapping the settingsMap to key/value pairs
         ...settingsMap.reduce((acc, setting) => {
-          const value = chat.setting[setting.key]
-          if (value) {
-            acc[setting.key] = setting.type === 'number' ? parseFloat(value) : value
+          if (setting.key !== 'system_message') {
+            const value = chat.setting[setting.key]
+            if (value) {
+              acc[setting.key] = setting.type === 'number' ? parseFloat(value) : value
+            }
           }
           return acc
         }, {})
+      }
+
+      if (chat.setting.system_message) {
+        request.messages.push({
+          role: 'system',
+          content: chat.setting.system_message
+        })
       }
 
       // Not working yet: a way to get the response as a stream
@@ -261,9 +275,19 @@
     // Update the models in the settings
     modelSetting.options = filteredModels
 
-    if (!chat.setting.model) {
-      chat.setting.model = modelSetting.default
+    if (settingsMap) {
+      const indx = settingsMap.findIndex(
+        item => item.key === 'model'
+      )
+
+      if (indx > -1) {
+        (settingsMap[indx]).options = filteredModels
+      }
     }
+
+    // if (!chat.setting.model) {
+    //   chat.setting.model = modelSetting.default
+    // }
   }
 
   const closeSettings = () => {
@@ -284,6 +308,10 @@
     } else {
       recognition?.start()
     }
+  }
+
+  const onSystemMessageChange = e => {
+    chat.setting.system_message = e.target.value.trim()
   }
 </script>
 
@@ -385,7 +413,6 @@
                   inputmode="decimal"
                   type='number'
                   title="{setting.title}"
-                  id="settings-{setting.key}"
                   min={setting.min}
                   max={setting.max}
                   step={setting.step}
@@ -394,13 +421,24 @@
                 />
               {:else if setting.type === 'select'}
                 <div class="select">
-                  <select id="settings-{setting.key}" title="{setting.title}"
+                  <select title="{setting.title}"
                     bind:value={chat.setting[setting.key]}>
                     {#each setting.options as option}
                       <option value={option}>{option}</option>
                     {/each}
                   </select>
                 </div>
+              {:else if setting.type === 'textArea'}
+                <SelectPredefinedPrompts 
+                  onPredefinedPromptSelect={prompt => onSystemMessageChange({ target: { value: prompt } })}
+                  label="system message" />
+                <textarea
+                  class={setting.key}
+                  title={setting.title}
+                  rows="6"
+                  value={chat.setting[setting.key]}
+                  id="system_messa"
+                  on:change={onSystemMessageChange} />
               {/if}
             </div>
           </div>

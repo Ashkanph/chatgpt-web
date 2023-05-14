@@ -58,11 +58,16 @@
     options: Model[];
   };
 
+  export type SettingsTextArea = {
+    type: 'textArea';
+    default: Model;
+  };
+
   export type Settings = {
     key: string;
     name: string;
     title: string;
-  } & (SettingsNumber | SettingsSelect);
+  } & (SettingsNumber | SettingsSelect | SettingsTextArea);
 
   type ResponseOK = {
     id: string;
