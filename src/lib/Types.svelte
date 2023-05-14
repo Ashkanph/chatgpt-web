@@ -27,6 +27,7 @@
     name: string;
     messages: Message[];
     setting: { [key: string]: any; };
+    appSetting: { [key: string]: string; }
   };
 
   export type Request = {

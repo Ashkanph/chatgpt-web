@@ -18,7 +18,10 @@
       id: chatId,
       name: `Chat ${chatId}`,
       messages: [],
-      setting: settingsMap.reduce((obj, item) => ({ ...obj, [item.key]: null }), {})
+      setting: settingsMap.reduce((obj, item) => ({ ...obj, [item.key]: null }), {}),
+      appSetting: {
+        onlyLastMessage: 'false'
+      }
     })
     chatsStorage.set(chats)
     return chatId
