@@ -3,6 +3,18 @@ import {
   supportedModels
 } from './Types.svelte'
 
+export const recLangOptions = [
+  'de-DE',
+  'en-GB',
+  'en-US',
+  'es-VE',
+  'es-ES',
+  'fr-FR',
+  'uk-UA',
+  'ru-RU',
+  'fa-IR'
+]
+
 export const modelSetting: Settings = {
   key: 'model',
   name: 'Model',

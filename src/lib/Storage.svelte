@@ -20,7 +20,8 @@
       messages: [],
       setting: settingsMap.reduce((obj, item) => ({ ...obj, [item.key]: null }), {}),
       appSetting: {
-        onlyLastMessage: 'false'
+        onlyLastMessage: 'false',
+        recLang: 'en-GB'
       }
     })
     chatsStorage.set(chats)

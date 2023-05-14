@@ -12,7 +12,7 @@
   } from './Types.svelte'
   import Prompts from './Prompts.svelte'
   import Messages from './Messages.svelte'
-  import { settingsMap, modelSetting } from './setting'
+  import { settingsMap, modelSetting, recLangOptions } from './setting'
   import SelectPredefinedPrompts from './SelectPredefinedPrompts.svelte'
 
   import { afterUpdate, onMount } from 'svelte'
@@ -57,6 +57,7 @@
 
     if (recognition) {
       recognition.interimResults = false
+      recognition.lang = chat.appSetting.recLang
       recognition.onstart = () => {
         recording = true
       }
@@ -199,6 +200,7 @@
         // Use TTS to read the response, if query was recorded
         if (recorded && 'SpeechSynthesisUtterance' in window) {
           const utterance = new SpeechSynthesisUtterance(choice.message.content)
+          utterance.lang = chat.appSetting.recLang
           window.speechSynthesis.speak(utterance)
         }
       })
@@ -454,6 +456,26 @@
             <select bind:value={chat.appSetting.onlyLastMessage} id="only-lst-msg">
                 <option value="true">True</option>
                 <option value="false">Flase</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label" for="rec-lang">Rec. language</label>
+        </div>
+        <div class="field-body">
+          <div class="select">
+            <select bind:value={chat.appSetting.recLang} id="rec-lang"
+              on:change={e => {
+                if (recognition) {
+                  recognition.lang = chat.appSetting.recLang
+                }
+              }}>
+              {#each recLangOptions as option}
+                <option value={option}>{option}</option>
+              {/each}
             </select>
           </div>
         </div>
