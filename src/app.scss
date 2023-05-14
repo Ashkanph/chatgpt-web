@@ -153,3 +153,18 @@ $modal-background-background-color-dark: rgba($dark, 0.86) !default; // remove t
   line-height: 23px;
   padding: 8px;
 }
+
+
+.navbar-brand {
+  width: 100%;
+
+  .navbar-btns {
+    align-self: center;
+    margin-left: auto;
+    margin-right: 12px;
+
+    svg {
+      cursor: pointer;
+    }
+  }
+}
