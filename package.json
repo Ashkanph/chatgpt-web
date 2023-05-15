@@ -12,7 +12,7 @@
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "tauri": "tauri",
     "lint": "eslint . --fix",
-    "deploy": "gh-pages -d dist -b gh-pages"
+    "deploy": "gh-pages -d dist -b gh-page"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^5.0.0",
