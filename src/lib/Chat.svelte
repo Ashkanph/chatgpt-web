@@ -92,7 +92,7 @@
     try {
       const request: Request = {
         // Submit only the role and content of the messages, provide the previous messages as well for context
-        messages: (chat.appSetting.onlyLastMessage === 'true' ? [messages[messages.length - 1]] : messages)
+        messages: messages.slice(-1 * (Number(chat.appSetting.onlyLastMessage) + 1))
           .map((message): Message => {
             const { role, content } = message
             return { role, content }
@@ -450,14 +450,20 @@
       <hr />
       <div class="field is-horizontal">
         <div class="field-label is-normal">
-          <label class="label" for="only-lst-msg">only Last msg.</label>
+          <label class="label" for="only-lst-msg">Nr. of Last msgs.</label>
         </div>
         <div class="field-body">
-          <div class="select">
-            <select bind:value={chat.appSetting.onlyLastMessage} id="only-lst-msg">
-                <option value="true">True</option>
-                <option value="false">Flase</option>
-            </select>
+          <div class="field">
+            <input
+                  class="input"
+                  inputmode="numeric"
+                  type='number'
+                  title="The last messages to be sent for completion"
+                  min=0
+                  step=1
+                  placeholder={String(chat.appSetting.onlyLastMessage)}
+                  bind:value={chat.appSetting.onlyLastMessage}
+                />
           </div>
         </div>
       </div>

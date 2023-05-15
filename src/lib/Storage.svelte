@@ -20,7 +20,7 @@
       messages: [],
       setting: settingsMap.reduce((obj, item) => ({ ...obj, [item.key]: null }), {}),
       appSetting: {
-        onlyLastMessage: 'false',
+        onlyLastMessage: '1000',
         recLang: 'en-GB'
       }
     })
