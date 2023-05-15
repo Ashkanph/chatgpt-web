@@ -332,6 +332,7 @@
   <div class="level-right">
     <p class="level-item">
       <button class="button is-warning" on:click={() => { clearMessages(chatId) }}><span class="greyscale mr-2">🗑️</span> Clear messages</button>
+      <button class="button hide-on-desktop-tablet" on:click|preventDefault={showSettings}><span class="greyscale">⚙️</span></button>
     </p>
   </div>
 </nav>
@@ -376,7 +377,7 @@
       ><span class="greyscale">🎤</span></button
     >
   </p>
-  <p class="control">
+  <p class="control hide-on-mobile">
     <button class="button" on:click|preventDefault={showSettings}><span class="greyscale">⚙️</span></button>
   </p>
   <p class="control">

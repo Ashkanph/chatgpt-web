@@ -10,6 +10,8 @@
       mangle: false // Do not mangle email addresses
     }
 
+    let showShortInfo = false
+
     export let messages : Message[]
     export let input: HTMLTextAreaElement
     export let defaultModel: Model
@@ -29,6 +31,10 @@
       }
 
       return 0
+    }
+
+    const toggleShortInfo = _event => {
+      showShortInfo = !showShortInfo
     }
 </script>
 
@@ -69,10 +75,17 @@
       <div class="message-body content">
         <SvelteMarkdown source={message.content} options={markedownOptions} renderers={{ code: Code, html: Code }}/>
         {#if message.usage}
-          <p class="is-size-7">
-            This message was generated on <em>{message.model || defaultModel}</em> using <span class="has-text-weight-bold">{message.usage.total_tokens}</span>
-            tokens ~= <span class="has-text-weight-bold">${getPrice(message.usage, message.model || defaultModel).toFixed(6)}</span>
-          </p>
+            {#if showShortInfo}
+              <p class="is-size-7" on:click={toggleShortInfo}>
+                <span class="has-text-weight-bold">{message.usage.total_tokens}</span>
+                tokens
+              </p>
+            {:else}
+              <p class="is-size-7" on:click={toggleShortInfo}>
+                This message was generated on <em>{message.model || defaultModel}</em> using <span class="has-text-weight-bold">{message.usage.total_tokens}</span>
+                tokens ~= <span class="has-text-weight-bold">${getPrice(message.usage, message.model || defaultModel).toFixed(6)}</span>
+              </p>
+            {/if}
         {/if}
       </div>
     </article>

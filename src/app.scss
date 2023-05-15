@@ -96,15 +96,6 @@ $modal-content-width: 1000px;
   }
 }
 
-/* Support for dark mode */
-$modal-background-background-color-dark: rgba($dark, 0.86) !default; // remove this once a new version of bulma-prefers-dark is released
-@import "/node_modules/bulma-prefers-dark/build/bulma-prefers-dark.sass";
-
-.modal-card-body {
-  // remove this once https: //github.com/jloh/bulma-prefers-dark/pull/90 is merged and released
-  background-color: $background-dark;
-}
-
 /* Support for copy code button */
 .code-block>button {
   position: absolute;
@@ -166,5 +157,23 @@ $modal-background-background-color-dark: rgba($dark, 0.86) !default; // remove t
     svg {
       cursor: pointer;
     }
+  }
+}
+
+.hide-on-mobile {
+  @media screen and (max-width: 550px) {
+    display: none;
+  }
+}
+
+.hide-on-desktop-tablet {
+  @media screen and (min-width: 551px) {
+    display: none;
+  }
+}
+
+.level-item {
+  .button {
+    margin: 0 5px;
   }
 }
